@@ -19,7 +19,24 @@ namespace PresentationWebApp.Controllers
         {
             //inform the responsable staff
 
-            ViewData["feedback"] = "Thank you for gettign in touch with us. We will answer back asap.";
+            /*
+             * key = [value]
+             * feedback = [Thank you for getting in touch with us. We will answer back asap.]
+             * warning = [Type in a question!]
+             * ggg
+             */
+
+            if (string.IsNullOrEmpty(query))
+            {
+                ViewData["warning"] = "Type in a question!";
+            }
+            else
+            {
+                ViewData["feedback"] = "Thank you for getting in touch with us. We will answer back asap.";
+            }
+
+
+            //ViewData["feedback"] = "Hello"; Overriding the original feedback value
 
             return View();
         }
