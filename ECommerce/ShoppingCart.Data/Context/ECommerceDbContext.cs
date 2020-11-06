@@ -15,9 +15,17 @@ namespace ECommerce.Data.Context
         }
 
         //Pre defined method -- DbSet<>
-        // right click Product >> Show Quick Fixes >> Add Reference to ECommerce.Domain
+        // right click Products >> Show Quick Fixes >> Add Reference to ECommerce.Domain
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        //generate GUID automatically
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+        }
     }
 }
