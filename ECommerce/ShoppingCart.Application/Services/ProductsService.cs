@@ -33,7 +33,8 @@ namespace ECommerce.Application.Services
                            {
                                Id = p.Category.Id,
                                Name = p.Category.Name
-                           }
+                           },
+                           ImageUrl = p.ImageUrl
                        };
 
             return list;
@@ -52,7 +53,8 @@ namespace ECommerce.Application.Services
                            {
                                Id = p.Category.Id,
                                Name = p.Category.Name
-                           }
+                           },
+                           ImageUrl = p.ImageUrl
                        };
 
             return list;

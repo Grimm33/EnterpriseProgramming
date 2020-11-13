@@ -11,14 +11,19 @@ namespace ECommerce.Domain.Models
         [Key] //VS will automatically set Id names proprty to PK but if you need a different firld to be PK this is needed
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   //This will not work for GUID -- only works for INT data type
         public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         [Required]
         public double Price { get; set; }
+
         [Required]
         public string Description { get; set; }
 
         [Required]
         public Category Category { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }
