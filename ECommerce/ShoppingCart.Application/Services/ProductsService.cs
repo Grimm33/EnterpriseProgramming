@@ -59,5 +59,23 @@ namespace ECommerce.Application.Services
 
             return list;
         }
+
+        public ProductViewModel GetProduct(Guid Id)
+        {
+            var myProduct = _productsRepository.GetProduct(Id);
+            ProductViewModel myModel = new ProductViewModel();
+            myModel.Description = myProduct.Description;
+            myModel.ImageUrl = myProduct.ImageUrl;
+            myModel.Name = myProduct.Name;
+            myModel.Price = myProduct.Price;
+            myModel.Id = myProduct.Id;
+            myModel.Category = new CategoryViewModel()
+            {
+                Id = myProduct.Category.Id,
+                Name = myProduct.Category.Name
+            };
+
+            return myModel;
+        }
     }
 }

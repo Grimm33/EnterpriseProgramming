@@ -1,6 +1,7 @@
 ﻿using ECommerce.Data.Context;
 using ECommerce.Domain.Interfaces;
 using ECommerce.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
