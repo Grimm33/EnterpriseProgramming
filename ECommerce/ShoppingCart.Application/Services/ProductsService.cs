@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Interfaces;
 using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Interfaces;
+using ECommerce.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,21 @@ namespace ECommerce.Application.Services
             };
 
             return myModel;
+        }
+
+        public void AddProduct(ProductViewModel product)
+        {
+            Product p = new Product()
+            {
+                Description = product.Description,
+                Name = product.Name,
+                Price = product.Price,
+                CategoryId = product.Category.Id,
+                ImageUrl = product.ImageUrl
+            };
+
+
+            _productsRepository.AddProduct(p);
         }
     }
 }

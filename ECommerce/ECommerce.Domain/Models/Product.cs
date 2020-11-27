@@ -9,7 +9,7 @@ namespace ECommerce.Domain.Models
     public class Product
     {
         [Key] //VS will automatically set Id names proprty to PK but if you need a different firld to be PK this is needed
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   //This will not work for GUID -- only works for INT data type
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]   //This will not work for GUID -- only works for INT data type
         public Guid Id { get; set; }
 
         [Required]
@@ -22,7 +22,10 @@ namespace ECommerce.Domain.Models
         public string Description { get; set; }
 
         [Required]
-        public virtual Category Category { get; set; }
+        public virtual Category Category { get; set; }  //this is the relationship
+            
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }             //this is the actual FK; this is a way how to address relationships
 
         public string ImageUrl { get; set; }
 
