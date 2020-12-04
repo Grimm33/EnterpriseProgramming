@@ -16,9 +16,11 @@ namespace ECommerce.Data.Context
 
         //Pre defined method -- DbSet<>
         // right click Products >> Show Quick Fixes >> Add Reference to ECommerce.Domain
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }    // > converted to tables
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Member> Members { get; set; }
 
         //generate GUID automatically
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -31,6 +31,13 @@ namespace ECommerce.Data.Repositories
             _context.SaveChanges();
         }
 
+        public void DisableProduct(Guid id)
+        {
+            var p = GetProduct(id);
+            p.Disable = true;
+            _context.SaveChanges();
+        }
+
         public Product GetProduct(Guid Id)
         {
             return _context.Products.SingleOrDefault(x => x.Id == Id);
@@ -38,7 +45,7 @@ namespace ECommerce.Data.Repositories
 
         public IQueryable<Product> GetProducts()
         {
-            return _context.Products;
+            return _context.Products.Where(x => x.Disable == false);
         }
     }
 }

@@ -40,19 +40,19 @@
     <div class="container">
         <main role="main" class="pb-3">
 
-            @if (ViewData["feedback"] != null)
+            @if (TempData["feedback"] != null)
             {
                 <br /><br />
                 <div class="alert alert-primary" role="alert">
-                    @ViewData["feedback"]
+                    @TempData["feedback"]
                 </div>
             }
 
-            @if (ViewData["warning"] != null)
+            @if (TempData["warning"] != null)
             {
                 <br /><br />
                 <div class="alert alert-warning" role="alert">
-                    @ViewData["warning"]
+                    @TempData["warning"]
                 </div>
             }
 

@@ -15,5 +15,9 @@ namespace ECommerce.Application.Interfaces
         ProductViewModel GetProduct(Guid Id);
 
         void AddProduct(ProductViewModel product);
+
+        void DeleteProduct(Guid id);
+
+        void DisableProduct(Guid id);
     }
 }

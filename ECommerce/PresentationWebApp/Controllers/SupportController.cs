@@ -28,15 +28,15 @@ namespace PresentationWebApp.Controllers
 
             if (string.IsNullOrEmpty(query))
             {
-                ViewData["warning"] = "Type in a question!";
+                TempData["warning"] = "Type in a question!";
             }
             else
             {
-                ViewData["feedback"] = "Thank you for getting in touch with us. We will answer back asap.";
+                TempData["feedback"] = "Thank you for getting in touch with us. We will answer back asap.";
             }
 
 
-            //ViewData["feedback"] = "Hello"; Overriding the original feedback value
+            //TempData["feedback"] = "Hello"; Overriding the original feedback value
 
             return View();
         }

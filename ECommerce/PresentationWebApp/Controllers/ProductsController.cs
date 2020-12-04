@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationWebApp.Controllers
@@ -12,16 +14,18 @@ namespace PresentationWebApp.Controllers
     {
         private readonly IProductsService _productsService;
         private readonly ICategoriesService _categoriesService;
+        private IWebHostEnvironment _env;
 
-        public ProductsController(IProductsService productsService, ICategoriesService categoriesService)
+        public ProductsController(IProductsService productsService, ICategoriesService categoriesService, IWebHostEnvironment env)
         {
             _productsService = productsService;
             _categoriesService = categoriesService;
+            _env = env;
         }
 
         public IActionResult Index()
         {
-            var list = _productsService.GetProducts();
+            var list = _productsService.GetProducts().ToList();
 
             return View(list);
         }
@@ -48,25 +52,74 @@ namespace PresentationWebApp.Controllers
 
         //here details input by the user will be received
         [HttpPost]
-        public IActionResult Create(ProductViewModel data)
+        public IActionResult Create(ProductViewModel data, IFormFile f)
         {
             try
             {
+                if (f != null)
+                {
+                    if (f.Length > 0)
+                    {
+                        //C:\Users\Ryan\source\repos\SWD62BEP\SWD62BEP\Solution3\PresentationWebApp\wwwroot
+                        string newFilename = Guid.NewGuid() + System.IO.Path.GetExtension(f.FileName);
+                        string newFilenameWithAbsolutePath = _env.WebRootPath + @"\Images\" + newFilename;
+
+                        using (var stream = System.IO.File.Create(newFilenameWithAbsolutePath))
+                        {
+                            f.CopyTo(stream);
+                        }
+
+                        data.ImageUrl = @"\Images\" + newFilename;
+                    }
+                }
+
                 _productsService.AddProduct(data);
 
-                ViewData["feedback"] = "Product was added successfully";
+                TempData["feedback"] = "Product was added successfully";
+            }
+            catch (Exception ex)
+            {
+                //log error
+                TempData["warning"] = "Product was not added!";
+            }
+
+            var listOfCategeories = _categoriesService.GetCategories();
+            ViewBag.Categories = listOfCategeories;
+            return View(data);
+
+        }
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _productsService.DeleteProduct(id);
+
+                TempData["feedback"] = "Product was deleted.";
             }
             catch
             {
                 //log error
-                ViewData["feedback"] = "Product was not added";
+
+                TempData["feedback"] = "Product was not deleted.";  //TODO change from TempData to TempData
             }
 
+            return RedirectToAction("index");
+        }
 
-            //var categoriesList = _categoriesService.GetCategories();
-            //ViewBag.Categories = categoriesList;
+        public IActionResult Disable(Guid id)
+        {
+            try
+            {
+                _productsService.DisableProduct(id);
 
-            return View(data);
+                TempData["feedback"] = "Product was disabled.";
+            }
+            catch
+            {
+                TempData["feedback"] = "Product was not disabled.";
+            }
+
+            return View();
         }
 
     }

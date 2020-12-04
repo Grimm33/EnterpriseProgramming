@@ -1,7 +1,7 @@
 ﻿@model ECommerce.Application.ViewModels.ProductViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    TempData["Title"] = "Create";
 }
 
 <h1>Create</h1>
@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -34,6 +34,9 @@
             <div class="form-group">
                 <label class="control-label">Image Url</label>
                 <input asp-for="ImageUrl" class="form-control" />
+
+                <input name="f" class="form-control" type="file"/>
+
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
 

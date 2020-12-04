@@ -93,5 +93,18 @@ namespace ECommerce.Application.Services
 
             _productsRepository.AddProduct(p);
         }
+
+        public void DeleteProduct(Guid id)
+        {
+            var p = _productsRepository.GetProduct(id);
+
+            if(p != null)
+                _productsRepository.DeleteProduct(p);
+        }
+
+        public void DisableProduct(Guid id)
+        {
+            _productsRepository.DisableProduct(id);
+        }
     }
 }
