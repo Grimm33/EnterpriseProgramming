@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Interfaces;
+﻿using AutoMapper;
+using ECommerce.Application.Interfaces;
 using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Interfaces;
 using ECommerce.Domain.Models;
@@ -13,16 +14,23 @@ namespace ECommerce.Application.Services
     {
 
         private IProductsRepository _productsRepository;
+        private IMapper _mapper;
 
-        public ProductsService(IProductsRepository productsRepository)
+        public ProductsService(IProductsRepository productsRepository, IMapper mapper)
         {
             _productsRepository = productsRepository;
+            _mapper = mapper;
         }
 
         public IQueryable<ProductViewModel> GetProducts()
         {
-            //to be implemented with AutoMapper
+            var products = _productsRepository.GetProducts();
+            var res = _mapper.Map<IQueryable<Product>, IQueryable<ProductViewModel>>(products);
 
+            return res;
+
+            //to be implemented with AutoMapper
+/*
             var list = from p in _productsRepository.GetProducts()
                        select new ProductViewModel()
                        {
@@ -39,10 +47,13 @@ namespace ECommerce.Application.Services
                        };
 
             return list;
+*/
         }
 
         public IQueryable<ProductViewModel> GetProducts(int category)
         {
+            //Domain >> ViewModels
+
             var list = from p in _productsRepository.GetProducts().Where(x => x.Category.Id == category)
                        select new ProductViewModel()
                        {

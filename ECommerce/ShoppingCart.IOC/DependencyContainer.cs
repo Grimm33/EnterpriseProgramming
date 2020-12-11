@@ -1,4 +1,6 @@
-﻿using ECommerce.Application.Interfaces;
+﻿using AutoMapper;
+using ECommerce.Application.AutoMapper;
+using ECommerce.Application.Interfaces;
 using ECommerce.Application.Services;
 using ECommerce.Data.Context;
 using ECommerce.Data.Repositories;
@@ -37,6 +39,9 @@ namespace ECommerce.IOC
             services.AddDbContext<ECommerceDbContext>(options =>
                 options.UseSqlServer(
                     connectionString));
+
+            services.AddAutoMapper(typeof(AutoMapperConfiguration));
+            AutoMapperConfiguration.RegisterMappings();
         }
     }
 }

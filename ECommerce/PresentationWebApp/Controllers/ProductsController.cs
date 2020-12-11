@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,7 @@ namespace PresentationWebApp.Controllers
 
         //The engine will load a page with empty fields
         [HttpGet]
+        [Authorize (Roles ="Admin")] //limiting access to only authenticated users
         public IActionResult Create()
         {
             //fetch a list of categories
@@ -52,6 +54,7 @@ namespace PresentationWebApp.Controllers
 
         //here details input by the user will be received
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(ProductViewModel data, IFormFile f)
         {
             try
@@ -88,6 +91,8 @@ namespace PresentationWebApp.Controllers
             return View(data);
 
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Guid id)
         {
             try
@@ -100,12 +105,13 @@ namespace PresentationWebApp.Controllers
             {
                 //log error
 
-                TempData["feedback"] = "Product was not deleted.";  //TODO change from TempData to TempData
+                TempData["feedback"] = "Product was not deleted.";
             }
 
             return RedirectToAction("index");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Disable(Guid id)
         {
             try

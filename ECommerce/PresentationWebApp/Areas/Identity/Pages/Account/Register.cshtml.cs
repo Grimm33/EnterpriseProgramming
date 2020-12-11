@@ -87,16 +87,17 @@ namespace PresentationWebApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, Input.Password);  //>>AspNetUsers
                 if (result.Succeeded)
                 {
-                    _membersService.AddMember(new ECommerce.Application.ViewModels.MemberViewModel()
+                    _membersService.AddMember(new ECommerce.Application.ViewModels.MemberViewModel()    //>> members
                     {
                         Email = Input.Email,
                         FirstName = Input.FirstName,
                         LastName = Input.LastName
                     });
 
+                    await _userManager.AddToRoleAsync(user, "User");
 
 
                     _logger.LogInformation("User created a new account with password.");
