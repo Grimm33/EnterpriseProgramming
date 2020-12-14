@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Interfaces;
@@ -24,10 +25,10 @@ namespace ECommerce.Application.Services
 
         public IQueryable<ProductViewModel> GetProducts()
         {
-            var products = _productsRepository.GetProducts();
-            var res = _mapper.Map<IQueryable<Product>, IQueryable<ProductViewModel>>(products);
+            //mapping Products to ProductViewModel
+            var products = _productsRepository.GetProducts().ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider);
 
-            return res;
+            return products;
 
             //to be implemented with AutoMapper
 /*
@@ -75,7 +76,10 @@ namespace ECommerce.Application.Services
         public ProductViewModel GetProduct(Guid Id)
         {
             var myProduct = _productsRepository.GetProduct(Id);
-            ProductViewModel myModel = new ProductViewModel();
+
+            var result = _mapper.Map<ProductViewModel>(myProduct);
+
+          /*  ProductViewModel myModel = new ProductViewModel();
             myModel.Description = myProduct.Description;
             myModel.ImageUrl = myProduct.ImageUrl;
             myModel.Name = myProduct.Name;
@@ -85,13 +89,19 @@ namespace ECommerce.Application.Services
             {
                 Id = myProduct.Category.Id,
                 Name = myProduct.Category.Name
-            };
+            };*/
 
-            return myModel;
+            return result;
         }
 
         public void AddProduct(ProductViewModel product)
         {
+            var prod = _mapper.Map<Product>(product);
+            //prod.Category = null;   //mapper tried to create a new category but since category with id 1 - 3 already exist, an error is given
+            //this was done in ViewModelToDomain which allows us to have the code in 1 place
+            _productsRepository.AddProduct(prod);
+/*
+            // ProductViewModel >> Product
             Product p = new Product()
             {
                 Description = product.Description,
@@ -102,7 +112,7 @@ namespace ECommerce.Application.Services
             };
 
 
-            _productsRepository.AddProduct(p);
+            _productsRepository.AddProduct(p);*/
         }
 
         public void DeleteProduct(Guid id)
