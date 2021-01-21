@@ -12,6 +12,8 @@ namespace ECommerce.Application.Interfaces
 
         IQueryable<ProductViewModel> GetProducts(int category);
 
+        IQueryable<ProductViewModel> GetProducts(string keyword);
+
         ProductViewModel GetProduct(Guid Id);
 
         void AddProduct(ProductViewModel product);

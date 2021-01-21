@@ -29,26 +29,6 @@ namespace ECommerce.Application.Services
             var products = _productsRepository.GetProducts().ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider);
 
             return products;
-
-            //to be implemented with AutoMapper
-/*
-            var list = from p in _productsRepository.GetProducts()
-                       select new ProductViewModel()
-                       {
-                           Id = p.Id,
-                           Description = p.Description,
-                           Name = p.Name,
-                           Price = p.Price,
-                           Category = new CategoryViewModel()
-                           {
-                               Id = p.Category.Id,
-                               Name = p.Category.Name
-                           },
-                           ImageUrl = p.ImageUrl
-                       };
-
-            return list;
-*/
         }
 
         public IQueryable<ProductViewModel> GetProducts(int category)
@@ -62,15 +42,18 @@ namespace ECommerce.Application.Services
                            Description = p.Description,
                            Name = p.Name,
                            Price = p.Price,
-                           Category = new CategoryViewModel()
-                           {
-                               Id = p.Category.Id,
-                               Name = p.Category.Name
-                           },
+                           Category = new CategoryViewModel() { Id = p.Category.Id, Name = p.Category.Name },
                            ImageUrl = p.ImageUrl
                        };
+            return list;
 
             return list;
+        }
+        public IQueryable<ProductViewModel> GetProducts(string keyword)
+        {
+            var products = _productsRepository.GetProducts().Where(x => x.Description.Contains(keyword) || x.Name.Contains(keyword)).ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider);
+
+            return products;
         }
 
         public ProductViewModel GetProduct(Guid Id)

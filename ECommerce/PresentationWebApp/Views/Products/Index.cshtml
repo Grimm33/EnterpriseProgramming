@@ -3,33 +3,45 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Products Catalogue</h1>
-
 <div class="container">
-    <div class="row">
 
-        @foreach (var p in Model)
-        {
-            <div class="col-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="@p.ImageUrl" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">@p.Name</h5>
-                        <p class="card-text">@p.Price</p>
-                        <a href="/Products/Details?id=@p.Id" class="btn btn-primary">View Specification</a>
+    <h1>Products Catalogue</h1>
+    <br>
+    @if (Model.Count() != 0)
+    {
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a href="/Products/Delete?id=@p.Id" class="btn btn-danger">Delete</a>
-                        }
-                    </div>
-                </div>
-            </div>
+        @Html.Partial("SearchPartial")
 
-            
-        }
 
-    </div>
+        <br />
+        <hr>
+        <br>
+        @Html.Partial("ProductViewPartial")
+    }
+    else
+    {
+        <br>
+        <h2>No products currently on sale. Please try again!</h2>
+    }
 </div>
-
+@*
+    TODO PAGINATION
+    <p>
+    @Html.Raw(ViewBag.PageCount)
+</p>
+<p>
+    @Html.Raw(ViewBag.CurrentPageIndex)
+    @Html.Raw(++ViewBag.CurrentPageIndex)
+</p>
+@ViewBag.PageCount
+@if (ViewBag.CurrentPageIndex != 0)
+{
+    <form action="/Products/Index" method="post">
+        <input type="hidden" name="currentPage" value="@(--ViewBag.CurrentPageIndex)">
+        <button type="submit" class="btn btn-primary">Previous</button>
+    </form>
+}
+<form action="/Products/Index" method="post">
+    <input type="hidden" name="currentPage" value="@(++ViewBag.CurrentPageIndex)">
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>*@

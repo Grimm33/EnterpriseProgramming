@@ -17,5 +17,7 @@ namespace ECommerce.Application.ViewModels
         public CategoryViewModel Category { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public int Stock { get; set; }
     }
 }

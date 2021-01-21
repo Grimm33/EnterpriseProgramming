@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ECommerce.Application.ViewModels.CategoryViewModel>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categories</h1>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+            <tr>
+                <th>@category.Name</th>
+                <th>
+                    <form method="post" action="/Products/SearchByCategory">
+                        <input type="hidden" value="@category.Id" name="categoryID">
+
+                        <button type="submit" class="btn btn-outline-primary">
+                            View All Items
+                        </button>
+                    </form> 
+                </th>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PagedList;
 
 namespace PresentationWebApp.Controllers
 {
@@ -17,6 +18,9 @@ namespace PresentationWebApp.Controllers
         private readonly ICategoriesService _categoriesService;
         private IWebHostEnvironment _env;
 
+        private int pageCount;
+        private int currentPageIndex;
+
         public ProductsController(IProductsService productsService, ICategoriesService categoriesService, IWebHostEnvironment env)
         {
             _productsService = productsService;
@@ -24,9 +28,48 @@ namespace PresentationWebApp.Controllers
             _env = env;
         }
 
+        //for pagination do later
+        public List<ProductViewModel> GetProducts(int currentPage = 1)
+        {
+            int pageSize = 10;
+
+            var list = _productsService.GetProducts().OrderBy(x => x.Id).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+
+            double pageCounter = (double)((decimal)list.Count() / Convert.ToDecimal(pageSize));
+
+            pageCount = (int)Math.Ceiling(pageCounter);
+            currentPageIndex = currentPage;
+
+            return list;
+        }
+
         public IActionResult Index()
         {
-            var list = _productsService.GetProducts().ToList();
+            //fetch a list of categories
+            var categoriesList = _categoriesService.GetCategories();
+
+            //we pass the categories to the page for dropdown
+            ViewBag.Categories = categoriesList;
+            ViewBag.PageCount = pageCount;
+            ViewBag.CurrentPageIndex = currentPageIndex;
+
+            var list = GetProducts();
+            return View(list);
+        }
+
+        [HttpPost]
+        public IActionResult Index(int currentPageIndex)
+        {
+            //fetch a list of categories
+            var categoriesList = _categoriesService.GetCategories();
+
+            //we pass the categories to the page for dropdown
+            ViewBag.Categories = categoriesList;
+
+            var list = GetProducts(currentPageIndex);
+            ViewBag.PageCount = pageCount;
+            ViewBag.CurrentPageIndex = currentPageIndex;
+
 
             return View(list);
         }
@@ -125,7 +168,33 @@ namespace PresentationWebApp.Controllers
                 TempData["feedback"] = "Product was not disabled.";
             }
 
-            return View();
+            return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        public IActionResult Search(string keyword)
+        {
+            //fetch a list of categories
+            var categoriesList = _categoriesService.GetCategories();
+
+            //we pass the categories to the page for dropdown
+            ViewBag.Categories = categoriesList;
+
+            var list = _productsService.GetProducts(keyword);
+            return View("Index", list);
+        }
+
+        [HttpPost]
+        public IActionResult SearchByCategory(int categoryID)
+        {
+            //fetch a list of categories
+            var categoriesList = _categoriesService.GetCategories();
+
+            //we pass the categories to the page for dropdown
+            ViewBag.Categories = categoriesList;
+
+            var list = _productsService.GetProducts(categoryID);
+            return View("Index", list);
         }
 
     }

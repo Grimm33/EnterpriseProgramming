@@ -1,0 +1,17 @@
+﻿
+<div class="row">
+    @foreach (var p in Model)
+    {
+        <div class="col-4">
+            <div class="card">
+                <img src="@p.ImageUrl" class="card-img-top" style="max-height: 300px; object-fit:contain;" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@p.Name</h5>
+                    <p class="card-text">@p.Price</p>
+                    <p class="card-text">@p.Category.Name</p>
+                    <a href="/Products/Details?id=@p.Id" class="btn btn-primary">View Specification</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
