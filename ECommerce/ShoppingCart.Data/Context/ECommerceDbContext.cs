@@ -22,12 +22,22 @@ namespace ECommerce.Data.Context
 
         public DbSet<Member> Members { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+
+        public DbSet<Cart> Cart { get; set; }
+
         //generate GUID automatically
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Product>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Order>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<OrderDetails>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Cart>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
