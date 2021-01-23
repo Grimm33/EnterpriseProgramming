@@ -29,7 +29,7 @@ namespace PresentationWebApp.Controllers
         }
 
         //for pagination do later
-        public List<ProductViewModel> GetProducts(int currentPage = 1)
+        /*public List<ProductViewModel> GetProducts(int currentPage = 1)
         {
             int pageSize = 10;
 
@@ -39,6 +39,20 @@ namespace PresentationWebApp.Controllers
 
             pageCount = (int)Math.Ceiling(pageCounter);
             currentPageIndex = currentPage;
+
+            return list;
+        }*/
+        public List<ProductViewModel> GetProducts()
+        {
+            int pageSize = 10;
+
+            var list = _productsService.GetProducts().OrderBy(x => x.Id).ToList();
+     /*           .Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+
+            double pageCounter = (double)((decimal)list.Count() / Convert.ToDecimal(pageSize));
+
+            pageCount = (int)Math.Ceiling(pageCounter);
+            currentPageIndex = currentPage;*/
 
             return list;
         }
@@ -57,7 +71,7 @@ namespace PresentationWebApp.Controllers
             return View(list);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Index(int currentPageIndex)
         {
             //fetch a list of categories
@@ -72,7 +86,7 @@ namespace PresentationWebApp.Controllers
 
 
             return View(list);
-        }
+        }*/
 
         public IActionResult Details(Guid id)
         {

@@ -64,27 +64,26 @@
                             </div>
                         }
                         else
-                        {
-                <form action="/Carts/AddToCart" method="post" class="form-inline">
-                    <input type="hidden" name="Member" value="@User.Identity.Name">
-                    <input type="hidden" Name="Product" value="@Model.Id">
-                    <label for="itemNumber">Amount</label>
-                    <select name="Quantity" id="itemNumber" class="custom-select">
-                        @for (int i = 1; i <= Model.Stock; i++)
-                        {
-                            <option value="@i">@i</option>
+                        {//gave up here sorry
+                            <form action="#" method="post" class="form-inline">
+                                <input type="hidden" Name="productId" value="@Model.Id">
+                                <label for="itemNumber">Amount</label>
+                                <select name="quantity" id="itemNumber" class="custom-select">
+                                    @for (int i = 1; i <= Model.Stock; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-primary">Add to Cart (Does nothing)</button>
+                            </form>
                         }
-                    </select>
-                    <button type="submit" class="btn btn-primary">Add to Cart</button>
-                </form>
-                        }
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
                         <div class="alert alert-info" role="alert">
                             Please log in to add item to cart.
                         </div>
-                        }
+                    }
 
                 </div>
             </div>

@@ -37,25 +37,25 @@ namespace PresentationWebApp.Controllers
             return View(cart);
         }
 
-        [HttpPost]
-        public IActionResult AddToCart(CartViewModel cart)
-        {
-            try
+        /*[HttpPost]
+            public IActionResult AddToCart(Guid productId, int quantity)
             {
-                /*CartViewModel cart = new CartViewModel();
-                cart.Member = _membersService.GetMember(memberEmail);
-                cart.Product = _productsService.GetProduct(productId);
-                cart.Quantity = quantity;*/
+                try
+                {
+                    *//*CartViewModel cart = new CartViewModel();
+                    cart.Member = _membersService.GetMember(memberEmail);
+                    cart.Product = _productsService.GetProduct(productId);
+                    cart.Quantity = quantity;*//*
 
-                _cartsService.AddToCart(cart);
-                TempData["feedback"] = "Product was added to cart successfully";
-            }
-            catch (Exception ex)
-            {
-                TempData["warning"] = "Product was not added to cart!" + ex;
-            }
+                    //_cartsService.AddToCart(cart);
+                    TempData["feedback"] = "Product was added to cart successfully";
+                }
+                catch (Exception ex)
+                {
+                    TempData["warning"] = "Product was not added to cart!" + ex;
+                }
 
-            return RedirectToAction("index");
-        }
+                return RedirectToAction("index");
+            }*/
     }
 }
