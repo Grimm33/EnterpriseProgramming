@@ -16,6 +16,8 @@ namespace ECommerce.Application.AutoMapper
             CreateMap<Category, CategoryViewModel>();
 
             CreateMap<Member, MemberViewModel>();
+
+            CreateMap<Cart, CartViewModel>();
         }
     }
 }

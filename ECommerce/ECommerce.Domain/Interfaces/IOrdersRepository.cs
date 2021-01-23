@@ -1,14 +1,17 @@
 ﻿using ECommerce.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ECommerce.Domain.Interfaces
 {
-    public interface IMembersRepository
+    public interface IOrdersRepository
     {
-        void AddMember(Member m);
+        Guid AddOder(Order o);
 
-        public Member GetMember(string memberEmail);
+        IQueryable<Order> GetOrders();
+
+
     }
 }

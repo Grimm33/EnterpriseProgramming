@@ -8,5 +8,7 @@ namespace ECommerce.Application.Interfaces
     public interface IMembersService
     {
         void AddMember(MemberViewModel m);
+
+        public MemberViewModel GetMember(string memberEmail);
     }
 }

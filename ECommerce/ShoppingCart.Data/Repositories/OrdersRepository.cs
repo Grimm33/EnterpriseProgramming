@@ -8,24 +8,25 @@ using System.Text;
 
 namespace ECommerce.Data.Repositories
 {
-    public class MembersRepository : IMembersRepository
+    public class OrdersRepository : IOrdersRepository
     {
         ECommerceDbContext _context;
 
-        public MembersRepository(ECommerceDbContext context)
+        public OrdersRepository(ECommerceDbContext context)
         {
             _context = context;
         }
 
-        public void AddMember(Member m)
+        public Guid AddOder(Order o)
         {
-            _context.Members.Add(m);
+            _context.Orders.Add(o);
             _context.SaveChanges();
+            return o.Id;
         }
 
-        public Member GetMember(string memberEmail)
+        public IQueryable<Order> GetOrders()
         {
-            return _context.Members.SingleOrDefault(x => x.Email == memberEmail);
+            return _context.Orders;
         }
     }
 }
